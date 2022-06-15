@@ -51,6 +51,7 @@ class InitialDash {
     // returns an array of every character and their inital dash value
     async getArray() {
         let rawInitialDashes = [];
+        this.array = [];
         const rawData = await this.pullData(this.URL);
         const $ = cheerio.load(rawData);
         $('#AutoNumber1 tbody tr').each(function (i, elm) {
@@ -63,5 +64,17 @@ class InitialDash {
             this.array.push(fighter);
         }
         return this.array;
+    }
+
+    // finds the requested character, returning the name and value in an array
+    async findCharacter(c) {
+        let character = String(c);
+        await this.getArray();
+        for (let i = 0; i < this.array.length; i++) {
+            if (this.array[i][0] == character) {
+                return this.array[i];
+            }
+        }
+        console.log(`Character _${character}_ not found.`);
     }
 }
