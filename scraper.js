@@ -15,12 +15,20 @@ const pullData = (URL) => {
 // URL for data
 const URL = "https://kuroganehammer.com/Ultimate/DashSpeed";
 
+let initialDashes = [];
+
 const pullInitialDashData = async () => {
     const rawData = await pullData(URL);
     const $ = cheerio.load(rawData);
-    const initialDashData = $('#AutoNumber1 tbody tr');
-    // console.log(initialDashData.text());
+    $('#AutoNumber1 tbody tr').each(function (i, elm) {
+        initialDashes.push($(this).text().trim());
+    });
 
+    let string = initialDashes[0].replace(/\s/g, ' ');
+    string = string.replace(/  +/g, ' ');
+
+   
 }
+
 
 pullInitialDashData();
