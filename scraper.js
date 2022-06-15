@@ -22,10 +22,11 @@ const pullInitialDashData = async () => {
     const $ = cheerio.load(rawData);
     $('#AutoNumber1 tbody tr').each(function (i, elm) {
         initialDashes.push($(this).text().trim());
+        let string = initialDashes[i].replace(/\s/g, ' ');
+        string = string.replace(/\s+/g, ' ');
+        string = string.replace(/[0-9]*\-[0-9]+|^[0-9]+/, '');
     });
 
-    let string = initialDashes[0].replace(/\s/g, ' ');
-    string = string.replace(/  +/g, ' ');
 
    
 }
