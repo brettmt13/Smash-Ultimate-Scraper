@@ -12,7 +12,7 @@ const pullData = (URL) => {
         })
 }
 
-
+// pulls the name of the current character in the string of data
 const getName = (string) => {
     let name = string.replace(/\s/g, ' '); // remove endlines
     name = name.replace(/\s+/g, ''); // remove white spaces
@@ -21,6 +21,7 @@ const getName = (string) => {
     return name;
 }
 
+// pulls the value of the current character in the string of data
 const getValue = (string) => {
     let value = string.replace(/\s/g, ' '); // remove endlines
     value = value.replace(/\s+/g, ''); // remove white spaces
@@ -30,6 +31,7 @@ const getValue = (string) => {
     return value;
 }
 
+// gets the current character's name and initial dash value
 const getInitialDash = (string) => {
     let name = getName(string);
     let value = getValue(string);
@@ -41,9 +43,9 @@ const getInitialDash = (string) => {
 // URL for data
 const URL = "https://kuroganehammer.com/Ultimate/DashSpeed";
 
-let rawInitialDashes = [];
-
-const pullInitialDashData = async() => {
+// returns an array of every character and their inital dash value
+const getArray = async () => {
+    let rawInitialDashes = [];
     let initialDash = [];
     const rawData = await pullData(URL);
     const $ = cheerio.load(rawData);
@@ -56,34 +58,8 @@ const pullInitialDashData = async() => {
     return initialDash;
 }
 
-let initialDash = []
-pullInitialDashData().then(result => {
+let initialDash = [];
+// creating the array
+getArray().then(result => {
     initialDash = result;
-    console.log(initialDash);
 });
-
-
-
-let Mythra = {};
-Mythra["data"] = "5";
-console.log(Mythra);
-
-let arrayt = [["Mythra", {}]]
-
-let Mario = {};
-let DonkeyKong = {};
-let Link = {};
-let Samus = {};
-let DarkSamus = {};
-let Yoshi = {};
-let Kirby = {};
-let Fox = {};
-let Pikachu = {};
-let Luigi = {};
-let Ness = {};
-let CaptainFalcon = {};
-let Jigglypuff = {};
-let Peach = {};
-let Daisy = {};
-let Bowser = {};
-let IceClibers = {};
