@@ -61,6 +61,12 @@ class InitialDash {
         for (let i = 0; i < rawInitialDashes.length; i++) {
             let string = rawInitialDashes[i];
             let fighter = this.getInitialDash(string);
+
+            // error in Kurogane Hammer's data
+            if (fighter[0] == "Terry" && fighter[1] == 1.68) {
+                fighter[0] = "Banjo&Kazooie";
+            }
+
             this.array.push(fighter);
         }
 
@@ -235,3 +241,91 @@ class RunSpeed {
         console.log(`Character _${character}_ not found.`);
     }
 }
+
+
+class WalkSpeed {
+    // holds this array which this class is returning
+    constructor() {
+        this.array = [];
+        this.URL = "https://kuroganehammer.com/Ultimate/WalkSpeed"; // URL of Kurogane Hammer's A.S data
+    }
+
+    // pull the data
+    pullData() {
+        return fetch(this.URL)
+            .then((response) => response.text())
+            .then((data) => {
+                return data;
+            })
+    }
+
+    // given an Walk Speed string, this method will return the name of the character in that string
+    getName(string) {
+        let name = string.replace(/\s/g, ' '); // remove endlines
+        name = name.replace(/\s+/g, ''); // remove white spaces
+        name = name.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
+        name = name.replace(/[0-9].+/, ''); // remove values
+        return name;
+    }
+
+    // given an Walk Speed string, this method will return the name of the A.S value in that string
+    getValue(string) {
+        let value = string.replace(/\s/g, ' '); // remove endlines
+        value = value.replace(/\s+/g, ''); // remove white spaces
+        value = value.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
+        value = value.replace(/^[A-Z]([A-Z]|[a-z]|\D)+/, ''); // remove names
+        value = value.replace(/[A-Z].+/, ''); // remove special cases
+        return value;
+    }
+
+    // given an Walk Speed string, this method will return an array of a single character's name and I.D value
+    getWalkSpeed(string) {
+        let name = this.getName(string);
+        let value = this.getValue(string);
+        let currentCharacter = [];
+        currentCharacter = [name, value];
+        return currentCharacter;
+    }
+
+
+    // returns an array of every character and their Walk Speed value
+    async getArray() {
+        let rawWalkSpeeds = [];
+        this.array = [];
+        const rawData = await this.pullData(this.URL);
+        const $ = cheerio.load(rawData);
+        $('#AutoNumber1 tbody tr').each(function (i, elm) {
+            rawWalkSpeeds.push($(this).text().trim());
+        });
+
+        for (let i = 0; i < rawWalkSpeeds.length; i++) {
+            let string = rawWalkSpeeds[i];
+            let fighter = this.getWalkSpeed(string);
+            this.array.push(fighter);
+        }
+
+        return this.array;
+    }
+
+    // finds the requested character, returning the name and value in an array
+    async findCharacter(c) {
+        let character = String(c);
+        await this.getArray();
+        for (let i = 0; i < this.array.length; i++) {
+            if (this.array[i][0] == character) {
+                return this.array[i];
+            }
+        }
+        console.log(`Character _${character}_ not found.`);
+    }
+}
+
+
+const obj = new Weight();
+
+obj.getArray().then(a => {
+    console.log(a);
+    obj.findCharacter("CaptainFalcon").then(r => {
+        console.log(r);
+    })
+})
