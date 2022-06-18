@@ -319,13 +319,3 @@ class WalkSpeed {
         console.log(`Character _${character}_ not found.`);
     }
 }
-
-
-const obj = new Weight();
-
-obj.getArray().then(a => {
-    console.log(a);
-    obj.findCharacter("CaptainFalcon").then(r => {
-        console.log(r);
-    })
-})
