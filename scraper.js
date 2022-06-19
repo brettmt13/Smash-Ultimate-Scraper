@@ -24,7 +24,7 @@ class InitialDash {
         let name = string.replace(/\s/g, ' '); // remove endlines
         name = name.replace(/\s+/g, ''); // remove white spaces
         name = name.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
-        name = name.replace(/[0-9].+/, ''); // remove values
+        name = name.replace(/[0-9].*/, ''); // remove values
         return name;
     }
 
@@ -108,7 +108,7 @@ class AirSpeed {
         let name = string.replace(/\s/g, ' '); // remove endlines
         name = name.replace(/\s+/g, ''); // remove white spaces
         name = name.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
-        name = name.replace(/[0-9].+/, ''); // remove values
+        name = name.replace(/[0-9].*/, ''); // remove values
         return name;
     }
 
@@ -264,7 +264,7 @@ class WalkSpeed {
         let name = string.replace(/\s/g, ' '); // remove endlines
         name = name.replace(/\s+/g, ''); // remove white spaces
         name = name.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
-        name = name.replace(/[0-9].+/, ''); // remove values
+        name = name.replace(/[0-9].*/, ''); // remove values
         return name;
     }
 
@@ -302,6 +302,86 @@ class WalkSpeed {
             let string = rawWalkSpeeds[i];
             let fighter = this.getWalkSpeed(string);
             this.array.push(fighter);
+        }
+
+        return this.array;
+    }
+
+    // finds the requested character, returning the name and value in an array
+    async findCharacter(c) {
+        let character = String(c);
+        await this.getArray();
+        for (let i = 0; i < this.array.length; i++) {
+            if (this.array[i][0] == character) {
+                return this.array[i];
+            }
+        }
+        console.log(`Character _${character}_ not found.`);
+    }
+}
+
+class Weight {
+    // holds this array which this class is returning
+    constructor() {
+        this.array = [];
+        this.URL = "https://kuroganehammer.com/Ultimate/Weight"; // URL of Kurogane Hammer's A.S data
+    }
+
+    // pull the data
+    pullData() {
+        return fetch(this.URL)
+            .then((response) => response.text())
+            .then((data) => {
+                return data;
+            })
+    }
+
+    // given an Weight string, this method will return the name of the character in that string
+    getName(string) {
+        let name = string.replace(/\s/g, ' '); // remove endlines
+        name = name.replace(/\s+/g, ''); // remove white spaces
+        name = name.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
+        name = name.replace(/[0-9].*/, ''); // remove values
+        return name;
+    }
+
+    // given an Weight string, this method will return the name of the A.S value in that string
+    getValue(string) {
+        let value = string.replace(/\s/g, ' '); // remove endlines
+        value = value.replace(/\s+/g, ''); // remove white spaces
+        value = value.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
+        value = value.replace(/^[A-Z]([A-Z]|[a-z]|\D)+/, ''); // remove names
+        value = value.replace(/[A-Z].+/, ''); // remove special cases
+        return value;
+    }
+
+    // given an Weight string, this method will return an array of a single character's name and I.D value
+    getWeight(string) {
+        let name = this.getName(string);
+        let value = this.getValue(string);
+        let currentCharacter = [];
+        currentCharacter = [name, value];
+        return currentCharacter;
+    }
+
+
+    // returns an array of every character and their Weight value
+    async getArray() {
+        let rawWeights = [];
+        this.array = [];
+        const rawData = await this.pullData(this.URL);
+        const $ = cheerio.load(rawData);
+        $('#AutoNumber1 tbody tr').each(function (i, elm) {
+            rawWeights.push($(this).text().trim());
+        });
+
+        for (let i = 0; i < rawWeights.length; i++) {
+            let string = rawWeights[i];
+            let fighter = this.getWeight(string);
+            if (fighter[1] != '') {
+                this.array.push(fighter);
+            }
+            
         }
 
         return this.array;
