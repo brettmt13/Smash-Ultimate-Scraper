@@ -3,23 +3,39 @@
 import fetch from "node-fetch";
 import * as cheerio from 'cheerio';
 
-class InitialDash {
-    // holds this array which this class is returning
-    constructor() {
-        this.array = [];
-        this.URL = "https://kuroganehammer.com/Ultimate/DashSpeed"; // URL of Kurogane Hammer's I.D data
+class Scraper {
+    constructor(attr) {
+        this.array = ["Scraper", "Array"];
+        this.URL = '';
+        switch (attr) {
+            case "ID":  // initial dash
+                this.URL = "https://kuroganehammer.com/Ultimate/DashSpeed";
+                break;
+            case "AS":  // air speed
+                this.URL = "https://kuroganehammer.com/Ultimate/AirSpeed";
+                break;
+            case "RS":  //run speed
+                this.URL = "https://kuroganehammer.com/Ultimate/RunSpeed";
+                break;
+            case "WS":  // walk speed
+                this.URL = "https://kuroganehammer.com/Ultimate/WalkSpeed";
+                break;
+            case "WT":  // weight
+                this.URL = "https://kuroganehammer.com/Ultimate/Weight";
+                break;
+        }
     }
 
-    // pull the data
-    pullData() {
+    // parse the data
+    parseData() {
         return fetch(this.URL)
             .then((response) => response.text())
             .then((data) => {
                 return data;
-            })
+            });
     }
 
-    // given an Initial Dash string, this method will return the name of the character in that string
+    // given a parsed string, pull the name of the fighter
     getName(string) {
         let name = string.replace(/\s/g, ' '); // remove endlines
         name = name.replace(/\s+/g, ''); // remove white spaces
@@ -28,7 +44,7 @@ class InitialDash {
         return name;
     }
 
-    // given an Initial Dash (I.D) string, this method will return the name of the I.D value in that string
+    // given a parsed string, pull the attribute value of the fighter
     getValue(string) {
         let value = string.replace(/\s/g, ' '); // remove endlines
         value = value.replace(/\s+/g, ''); // remove white spaces
@@ -38,29 +54,47 @@ class InitialDash {
         return value;
     }
 
-    // given an Initial Dash string, this method will return an array of a single character's name and I.D value
-    getInitialDash(string) {
+    // given a parsed string, return an array holding fighter with their attribute value (FV = fighter & value)
+    getFV(string) {
         let name = this.getName(string);
         let value = this.getValue(string);
-        let currentCharacter = [];
-        currentCharacter = [name, value];
-        return currentCharacter;
+        let fighter = [];
+        fighter = [name, value];
+        return fighter;
     }
 
+    // return the value of the requested character
+    async findCharacter(c) {
+        let fighter = String(c);
+        await this.getArray();
+        for (let i = 0; i < this.array.length; i++) {
+            if (this.array[i][0] == fighter) {
+                return this.array[i];
+            }
+        }
+        console.log(`Character _${fighter}_ not found.`);
+    }
+}
+
+class InitialDash extends Scraper {
+    constructor() {
+        super("ID");
+    }
 
     // returns an array of every character and their inital dash value
     async getArray() {
-        let rawInitialDashes = [];
+        let parsedData = [];
         this.array = [];
-        const rawData = await this.pullData(this.URL);
+        const rawData = await this.parseData(this.URL);
         const $ = cheerio.load(rawData);
+
         $('#AutoNumber1 tbody tr').each(function (i, elm) {
-            rawInitialDashes.push($(this).text().trim());
+            parsedData.push($(this).text().trim());
         });
 
-        for (let i = 0; i < rawInitialDashes.length; i++) {
-            let string = rawInitialDashes[i];
-            let fighter = this.getInitialDash(string);
+        for (let i = 0; i < parsedData.length; i++) {
+            let string = parsedData[i];
+            let fighter = this.getFV(string);
 
             // error in Kurogane Hammer's data
             if (fighter[0] == "Terry" && fighter[1] == 1.68) {
@@ -69,333 +103,116 @@ class InitialDash {
 
             this.array.push(fighter);
         }
-
         return this.array;
-    }
-
-    // finds the requested character, returning the name and value in an array
-    async findCharacter(c) {
-        let character = String(c);
-        await this.getArray();
-        for (let i = 0; i < this.array.length; i++) {
-            if (this.array[i][0] == character) {
-                return this.array[i];
-            }
-        }
-        console.log(`Character _${character}_ not found.`);
     }
 }
 
 
-class AirSpeed {
-    // holds this array which this class is returning
+class AirSpeed extends Scraper {
     constructor() {
-        this.array = [];
-        this.URL = "https://kuroganehammer.com/Ultimate/AirSpeed"; // URL of Kurogane Hammer's A.S data
+        super("AS");
     }
-
-    // pull the data
-    pullData() {
-        return fetch(this.URL)
-            .then((response) => response.text())
-            .then((data) => {
-                return data;
-            })
-    }
-
-    // given an Air Speed string, this method will return the name of the character in that string
-    getName(string) {
-        let name = string.replace(/\s/g, ' '); // remove endlines
-        name = name.replace(/\s+/g, ''); // remove white spaces
-        name = name.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
-        name = name.replace(/[0-9].*/, ''); // remove values
-        return name;
-    }
-
-    // given an Air Speed string, this method will return the name of the A.S value in that string
-    getValue(string) {
-        let value = string.replace(/\s/g, ' '); // remove endlines
-        value = value.replace(/\s+/g, ''); // remove white spaces
-        value = value.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
-        value = value.replace(/^[A-Z]([A-Z]|[a-z]|\D)+/, ''); // remove names
-        value = value.replace(/[A-Z].+/, ''); // remove special cases
-        return value;
-    }
-
-    // given an Air Speed string, this method will return an array of a single character's name and I.D value
-    getAirSpeed(string) {
-        let name = this.getName(string);
-        let value = this.getValue(string);
-        let currentCharacter = [];
-        currentCharacter = [name, value];
-        return currentCharacter;
-    }
-
 
     // returns an array of every character and their air speed value
     async getArray() {
-        let rawAirSpeeds = [];
+        let parsedData = [];
         this.array = [];
-        const rawData = await this.pullData(this.URL);
+        const rawData = await this.parseData(this.URL);
         const $ = cheerio.load(rawData);
+
         $('#AutoNumber1 tbody tr').each(function (i, elm) {
-            rawAirSpeeds.push($(this).text().trim());
+            parsedData.push($(this).text().trim());
         });
 
-        for (let i = 0; i < rawAirSpeeds.length; i++) {
-            let string = rawAirSpeeds[i];
-            let fighter = this.getAirSpeed(string);
+        for (let i = 0; i < parsedData.length; i++) {
+            let string = parsedData[i];
+            let fighter = this.getFV(string);
             this.array.push(fighter);
         }
 
         return this.array;
     }
-
-    // finds the requested character, returning the name and value in an array
-    async findCharacter(c) {
-        let character = String(c);
-        await this.getArray();
-        for (let i = 0; i < this.array.length; i++) {
-            if (this.array[i][0] == character) {
-                return this.array[i];
-            }
-        }
-        console.log(`Character _${character}_ not found.`);
-    }
 }
 
 
-class RunSpeed {
-    // holds this array which this class is returning
+class RunSpeed extends Scraper {
     constructor() {
-        this.array = [];
-        this.URL = "https://kuroganehammer.com/Ultimate/RunSpeed"; // URL of Kurogane Hammer's A.S data
+        super("RS");
     }
 
-    // pull the data
-    pullData() {
-        return fetch(this.URL)
-            .then((response) => response.text())
-            .then((data) => {
-                return data;
-            })
-    }
-
-    // given an Run Speed string, this method will return the name of the character in that string
-    getName(string) {
-        let name = string.replace(/\s/g, ' '); // remove endlines
-        name = name.replace(/\s+/g, ''); // remove white spaces
-        name = name.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
-        name = name.replace(/[0-9].+/, ''); // remove values
-        return name;
-    }
-
-    // given an Run Speed string, this method will return the name of the A.S value in that string
-    getValue(string) {
-        let value = string.replace(/\s/g, ' '); // remove endlines
-        value = value.replace(/\s+/g, ''); // remove white spaces
-        value = value.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
-        value = value.replace(/^[A-Z]([A-Z]|[a-z]|\D)+/, ''); // remove names
-        value = value.replace(/[A-Z].+/, ''); // remove special cases
-        return value;
-    }
-
-    // given an Run Speed string, this method will return an array of a single character's name and I.D value
-    getRunSpeed(string) {
-        let name = this.getName(string);
-        let value = this.getValue(string);
-        let currentCharacter = [];
-        currentCharacter = [name, value];
-        return currentCharacter;
-    }
-
-
-    // returns an array of every character and their Run Speed value
+    // returns an array of every character and their air speed value
     async getArray() {
-        let rawRunSpeeds = [];
+        let parsedData = [];
         this.array = [];
-        const rawData = await this.pullData(this.URL);
+        const rawData = await this.parseData(this.URL);
         const $ = cheerio.load(rawData);
+
         $('#AutoNumber1 tbody tr').each(function (i, elm) {
-            rawRunSpeeds.push($(this).text().trim());
+            parsedData.push($(this).text().trim());
         });
 
-        for (let i = 0; i < rawRunSpeeds.length; i++) {
-            let string = rawRunSpeeds[i];
-            let fighter = this.getRunSpeed(string);
+        for (let i = 0; i < parsedData.length; i++) {
+            let string = parsedData[i];
+            let fighter = this.getFV(string);
             this.array.push(fighter);
         }
 
         return this.array;
     }
-
-    // finds the requested character, returning the name and value in an array
-    async findCharacter(c) {
-        let character = String(c);
-        await this.getArray();
-        for (let i = 0; i < this.array.length; i++) {
-            if (this.array[i][0] == character) {
-                return this.array[i];
-            }
-        }
-        console.log(`Character _${character}_ not found.`);
-    }
 }
 
 
-class WalkSpeed {
-    // holds this array which this class is returning
+class WalkSpeed extends Scraper {
     constructor() {
-        this.array = [];
-        this.URL = "https://kuroganehammer.com/Ultimate/WalkSpeed"; // URL of Kurogane Hammer's A.S data
+        super("WS");
     }
 
-    // pull the data
-    pullData() {
-        return fetch(this.URL)
-            .then((response) => response.text())
-            .then((data) => {
-                return data;
-            })
-    }
-
-    // given an Walk Speed string, this method will return the name of the character in that string
-    getName(string) {
-        let name = string.replace(/\s/g, ' '); // remove endlines
-        name = name.replace(/\s+/g, ''); // remove white spaces
-        name = name.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
-        name = name.replace(/[0-9].*/, ''); // remove values
-        return name;
-    }
-
-    // given an Walk Speed string, this method will return the name of the A.S value in that string
-    getValue(string) {
-        let value = string.replace(/\s/g, ' '); // remove endlines
-        value = value.replace(/\s+/g, ''); // remove white spaces
-        value = value.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
-        value = value.replace(/^[A-Z]([A-Z]|[a-z]|\D)+/, ''); // remove names
-        value = value.replace(/[A-Z].+/, ''); // remove special cases
-        return value;
-    }
-
-    // given an Walk Speed string, this method will return an array of a single character's name and I.D value
-    getWalkSpeed(string) {
-        let name = this.getName(string);
-        let value = this.getValue(string);
-        let currentCharacter = [];
-        currentCharacter = [name, value];
-        return currentCharacter;
-    }
-
-
-    // returns an array of every character and their Walk Speed value
+    // returns an array of every character and their air speed value
     async getArray() {
-        let rawWalkSpeeds = [];
+        let parsedData = [];
         this.array = [];
-        const rawData = await this.pullData(this.URL);
+        const rawData = await this.parseData(this.URL);
         const $ = cheerio.load(rawData);
+
         $('#AutoNumber1 tbody tr').each(function (i, elm) {
-            rawWalkSpeeds.push($(this).text().trim());
+            parsedData.push($(this).text().trim());
         });
 
-        for (let i = 0; i < rawWalkSpeeds.length; i++) {
-            let string = rawWalkSpeeds[i];
-            let fighter = this.getWalkSpeed(string);
+        for (let i = 0; i < parsedData.length; i++) {
+            let string = parsedData[i];
+            let fighter = this.getFV(string);
             this.array.push(fighter);
         }
 
         return this.array;
     }
-
-    // finds the requested character, returning the name and value in an array
-    async findCharacter(c) {
-        let character = String(c);
-        await this.getArray();
-        for (let i = 0; i < this.array.length; i++) {
-            if (this.array[i][0] == character) {
-                return this.array[i];
-            }
-        }
-        console.log(`Character _${character}_ not found.`);
-    }
 }
 
-class Weight {
-    // holds this array which this class is returning
+
+class Weight extends Scraper {
     constructor() {
-        this.array = [];
-        this.URL = "https://kuroganehammer.com/Ultimate/Weight"; // URL of Kurogane Hammer's A.S data
+        super("WT");
     }
 
-    // pull the data
-    pullData() {
-        return fetch(this.URL)
-            .then((response) => response.text())
-            .then((data) => {
-                return data;
-            })
-    }
-
-    // given an Weight string, this method will return the name of the character in that string
-    getName(string) {
-        let name = string.replace(/\s/g, ' '); // remove endlines
-        name = name.replace(/\s+/g, ''); // remove white spaces
-        name = name.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
-        name = name.replace(/[0-9].*/, ''); // remove values
-        return name;
-    }
-
-    // given an Weight string, this method will return the name of the A.S value in that string
-    getValue(string) {
-        let value = string.replace(/\s/g, ' '); // remove endlines
-        value = value.replace(/\s+/g, ''); // remove white spaces
-        value = value.replace(/[0-9]*\-[0-9]+|^[0-9]+/, ''); //remove beginning numbers
-        value = value.replace(/^[A-Z]([A-Z]|[a-z]|\D)+/, ''); // remove names
-        value = value.replace(/[A-Z].+/, ''); // remove special cases
-        return value;
-    }
-
-    // given an Weight string, this method will return an array of a single character's name and I.D value
-    getWeight(string) {
-        let name = this.getName(string);
-        let value = this.getValue(string);
-        let currentCharacter = [];
-        currentCharacter = [name, value];
-        return currentCharacter;
-    }
-
-
-    // returns an array of every character and their Weight value
+    // returns an array of every character and their air speed value
     async getArray() {
-        let rawWeights = [];
+        let parsedData = [];
         this.array = [];
-        const rawData = await this.pullData(this.URL);
+        const rawData = await this.parseData(this.URL);
         const $ = cheerio.load(rawData);
+
         $('#AutoNumber1 tbody tr').each(function (i, elm) {
-            rawWeights.push($(this).text().trim());
+            parsedData.push($(this).text().trim());
         });
 
-        for (let i = 0; i < rawWeights.length; i++) {
-            let string = rawWeights[i];
-            let fighter = this.getWeight(string);
+        for (let i = 0; i < parsedData.length; i++) {
+            let string = parsedData[i];
+            let fighter = this.getFV(string);
             if (fighter[1] != '') {
                 this.array.push(fighter);
             }
-            
         }
 
         return this.array;
-    }
-
-    // finds the requested character, returning the name and value in an array
-    async findCharacter(c) {
-        let character = String(c);
-        await this.getArray();
-        for (let i = 0; i < this.array.length; i++) {
-            if (this.array[i][0] == character) {
-                return this.array[i];
-            }
-        }
-        console.log(`Character _${character}_ not found.`);
     }
 }
