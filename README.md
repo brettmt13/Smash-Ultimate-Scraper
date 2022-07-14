@@ -8,7 +8,7 @@
 ##### Goals:
 - Create a library for backend use for anyone using JavaScript.
 
-#### Upcoming - An interactive web page displaying SSBU frame data.
+#### Upcoming - An interactive web page displaying SSBU frame data using react.js.
 ##### Goals:
 - Create interactive comparable character analysis
 - Be able to specify which data to display, compare, and visualize
