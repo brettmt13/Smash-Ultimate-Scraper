@@ -1,0 +1,17 @@
+/*  src/Title.css  */
+
+.Banner {
+    width: 100%;
+    background-color: rgb(144,55,55);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    line-height: 130%;
+    color: rgb(255,203,203);
+    display:flex;
+    text-align: left;
+    justify-content: flex-end;
+}
+
+.Text{
+    padding-right: 15%;
+}

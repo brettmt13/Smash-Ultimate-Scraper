@@ -28,6 +28,8 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="app\src\Title.css" />
+    <Content Include="app\src\Title.js" />
     <Content Include="scraper.js" />
     <Content Include="README.md" />
   </ItemGroup>

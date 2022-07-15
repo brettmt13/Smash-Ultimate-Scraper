@@ -1,10 +1,10 @@
 import React from 'react';
-import Title from './Title';
+import Title from './Banner';
 
 function App() {
     return (
         <div>
-            <Title />
+            <Banner />
         </div>
     );
 }
