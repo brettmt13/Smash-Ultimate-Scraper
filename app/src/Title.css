@@ -1,0 +1,12 @@
+/*  src/Title.css  */
+.Title {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: red;
+    padding: 1em;
+    text-align: right;
+}
+
+.Text {
+    padding-right: 10%;
+}

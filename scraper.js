@@ -216,3 +216,9 @@ class Weight extends Scraper {
         return this.array;
     }
 }
+
+const rs = new RunSpeed();
+
+rs.findCharacter("Yoshi").then(r => {
+    console.log(r);
+})
