@@ -3,15 +3,31 @@
 .Banner {
     width: 100%;
     background-color: rgb(144,55,55);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    line-height: 130%;
     color: rgb(255,203,203);
-    display:flex;
-    text-align: left;
-    justify-content: flex-end;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between
 }
 
-.Text{
-    padding-right: 15%;
+.Menu {
+    margin-bottom:0px;
+    margin-left:10%;
+    bottom:0;
+}
+
+li {
+    display: inline-block;
+    background-color: darkgoldenrod;
+    padding:20px;
+    text-align:center;
+    font-size:30px;
+    width:150px;
+}
+
+li + li {
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-color: black;
 }

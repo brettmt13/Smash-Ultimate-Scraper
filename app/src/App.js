@@ -1,5 +1,5 @@
 import React from 'react';
-import Title from './Banner';
+import Banner from './Banner';
 
 function App() {
     return (

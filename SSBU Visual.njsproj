@@ -28,10 +28,14 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="app\src\Title.css" />
-    <Content Include="app\src\Title.js" />
+    <Content Include="app\src\Banner.css" />
+    <Content Include="app\src\Banner.js" />
     <Content Include="scraper.js" />
     <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\" />
+    <Folder Include="app\src\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
 </Project>
