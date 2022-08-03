@@ -4,26 +4,9 @@ import fetch from "node-fetch";
 import * as cheerio from 'cheerio';
 
 export class Scraper {
-    constructor(attr) {
+    constructor() {
         this.array = ["Scraper", "Array"];
-        this.URL = '';
-        switch (attr) {
-            case "ID":  // initial dash
-                this.URL = "http://https://ultimateframedata.com/stats";
-                break;
-            case "AS":  // air speed
-                this.URL = "https://kuroganehammer.com/Ultimate/AirSpeed";
-                break;
-            case "RS":  //run speed
-                this.URL = "https://kuroganehammer.com/Ultimate/RunSpeed";
-                break;
-            case "WS":  // walk speed
-                this.URL = "https://ultimateframedata.com/stats";
-                break;
-            case "WT":  // weight
-                this.URL = "https://kuroganehammer.com/Ultimate/Weight";
-                break;
-        }
+        this.URL = 'https://ultimateframedata.com/stats';
     }
 
     // parse the data
@@ -78,7 +61,7 @@ export class Scraper {
 
 export class InitialDash extends Scraper {
     constructor() {
-        super("ID");
+        super();
     }
 
     // returns an array of every character and their inital dash value
@@ -88,18 +71,13 @@ export class InitialDash extends Scraper {
         const rawData = await this.parseData(this.URL);
         const $ = cheerio.load(rawData);
 
-        $('#AutoNumber1 tbody tr').each(function (i, elm) {
+        $('#dashrunspeed tbody tr').each(function (i, elm) {
             parsedData.push($(this).text().trim());
         });
 
         for (let i = 0; i < parsedData.length; i++) {
             let string = parsedData[i];
             let fighter = this.getFV(string);
-
-            // error in Kurogane Hammer's data
-            if (fighter[0] == "Terry" && fighter[1] == 1.68) {
-                fighter[0] = "Banjo&Kazooie";
-            }
 
             this.array.push(fighter);
         }
@@ -110,7 +88,7 @@ export class InitialDash extends Scraper {
 
 export class AirSpeed extends Scraper {
     constructor() {
-        super("AS");
+        super();
     }
 
     // returns an array of every character and their air speed value
@@ -120,7 +98,7 @@ export class AirSpeed extends Scraper {
         const rawData = await this.parseData(this.URL);
         const $ = cheerio.load(rawData);
 
-        $('#AutoNumber1 tbody tr').each(function (i, elm) {
+        $('#airspeed tbody tr').each(function (i, elm) {
             parsedData.push($(this).text().trim());
         });
 
@@ -137,7 +115,7 @@ export class AirSpeed extends Scraper {
 
 export class RunSpeed extends Scraper {
     constructor() {
-        super("RS");
+        super();
     }
 
     // returns an array of every character and their air speed value
@@ -147,7 +125,7 @@ export class RunSpeed extends Scraper {
         const rawData = await this.parseData(this.URL);
         const $ = cheerio.load(rawData);
 
-        $('#AutoNumber1 tbody tr').each(function (i, elm) {
+        $('#runspeed tbody tr').each(function (i, elm) {
             parsedData.push($(this).text().trim());
         });
 
@@ -164,7 +142,7 @@ export class RunSpeed extends Scraper {
 
 export class WalkSpeed extends Scraper {
     constructor() {
-        super("WS");
+        super();
     }
 
     // returns an array of every character and their air speed value
@@ -191,7 +169,7 @@ export class WalkSpeed extends Scraper {
 
 export class Weight extends Scraper {
     constructor() {
-        super("WT");
+        super();
     }
 
     // returns an array of every character and their air speed value
@@ -201,7 +179,7 @@ export class Weight extends Scraper {
         const rawData = await this.parseData(this.URL);
         const $ = cheerio.load(rawData);
 
-        $('#AutoNumber1 tbody tr').each(function (i, elm) {
+        $('#weight tbody tr').each(function (i, elm) {
             parsedData.push($(this).text().trim());
         });
 
