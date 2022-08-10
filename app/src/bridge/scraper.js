@@ -64,15 +64,35 @@ export class InitialDash extends Scraper {
         super();
     }
 
+    // given a parsed string, return an array holding fighter with their attribute value (FV = fighter & value)
+    getFV(string) {
+        let name = this.getName(string);
+        let value = this.getValue(string);
+        let fighter = [];
+        fighter = [name, value];
+        return fighter;
+    }
+
     // returns an array of every character and their inital dash value
     async getArray() {
         let parsedData = [];
         this.array = [];
         const rawData = await this.parseData(this.URL);
         const $ = cheerio.load(rawData);
+        let it = 5;
+        let name = '';
+        let value = 0;
 
-        $('#dashrunspeed tbody tr').each(function (i, elm) {
-            parsedData.push($(this).text().trim());
+        $('#dashrunspeed tr td').each(function (i, elm) { //for each row just append first two
+            
+            if (it % 5 == 0) { // this gets the name
+                name = $(this).text().trim();
+            }
+            else if(it % 5 == 1){ // this gets initial dash value
+                value = $(this).text().trim();
+                parsedData.push(name + value);
+            }
+            it = it + 1;
         });
 
         for (let i = 0; i < parsedData.length; i++) {

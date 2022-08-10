@@ -2,9 +2,12 @@ import React from 'react';
 import Banner from './Banner';
 import './TS.css'
 import Ranker from './Ranker';
+import * as scraper from './bridge/bridge.js'
 
 function App() {
-    const array = ['1', '2']
+    scraper.ID.getArray().then(r => {
+        console.log(r);
+    });
     return (
         <div>
             <Banner />
