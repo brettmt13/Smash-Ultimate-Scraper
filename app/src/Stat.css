@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;1,600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0px;
+}
+
+table {
+    border-collapse: collapse;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.Num-td {
+    width: 50px;
+    display: table-cell;
+    font-family: 'Rubik', sans-serif;
+    background-color: dimgrey;
+    color: white;
+}
+
+.Name-td {
+    width: 120px;
+    display: table-cell;
+    font-family: 'Rubik', sans-serif;
+    background-color: darkgreen;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left:  30px;
+    padding-right: 40px;
+    font-style: italic;
+    font-weight: 600;
+    font-size: larger;
+}
