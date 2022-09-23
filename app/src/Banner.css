@@ -6,7 +6,7 @@
 .Banner {
     width: 100%;
     font-family: 'Rubik', sans-serif;
-    background-color: green;
+    background-color: rgb(123,17,17);
     color: white;
     display: flex;
     justify-content: center;

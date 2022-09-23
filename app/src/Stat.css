@@ -6,7 +6,7 @@
 }
 
 table {
-    border-collapse: collapse;
+    border-collapse:collapse;
     display: flex;
     justify-content: center;
     align-content: center;
@@ -14,25 +14,43 @@ table {
     text-align: center;
 }
 
+tr {
+    padding-bottom:5px
+}
+
 .Num-td {
-    width: 50px;
+    width: 70px;
     display: table-cell;
     font-family: 'Rubik', sans-serif;
-    background-color: dimgrey;
+    background-color: rgb(0,19,184);
     color: white;
+    font-size:larger;
 }
 
 .Name-td {
-    width: 120px;
+    width: 190px;
     display: table-cell;
     font-family: 'Rubik', sans-serif;
-    background-color: darkgreen;
+    background-color: rgb(203,39,39);
     color: white;
     padding-top: 20px;
     padding-bottom: 20px;
-    padding-left:  30px;
+    padding-left: 30px;
     padding-right: 40px;
     font-style: italic;
     font-weight: 600;
-    font-size: larger;
+    font-size: 27px;
+}
+
+.Stat-td {
+    width: 80px;
+    display: table-cell;
+    font-family: 'Rubik', sans-serif;
+    background-color: rgb(123,17,17);
+    color: white;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
 }

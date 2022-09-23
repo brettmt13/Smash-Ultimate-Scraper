@@ -84,7 +84,7 @@ export class InitialDash extends Scraper {
         let value = 0;
 
         $('#dashrunspeed tr td').each(function (i, elm) { //for each row just append first two
-            
+
             if (it % 5 == 0) { // this gets the name
                 name = $(this).text().trim();
             }
@@ -214,9 +214,3 @@ export class Weight extends Scraper {
         return this.array;
     }
 }
-
-//const rs = new RunSpeed();
-
-//rs.findCharacter("Yoshi").then(r => {
-//    console.log(r);
-//})

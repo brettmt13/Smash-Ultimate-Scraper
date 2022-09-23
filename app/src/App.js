@@ -1,16 +1,19 @@
-import logo from './logo.svg';
 import Banner from './Banner';
 import Stat from './Stat';
 import weight from './Data';
+import './App.css';
 
 function App() {
   return (
-      <div>
+      <div className="structure">
           <Banner />
-          <h1 className="statTitle">Weight</h1>
+          <div className="strip">
+              <h1>Weight</h1>
+          </div>
           {weight.map((name, num) => (
-              <Stat Name={name[1]} Num={num + 1} />
+              <Stat Name={name[0]} Num={num + 1} Stat={name[1]} />
           ))}
+
       </div>     
   );
 }
