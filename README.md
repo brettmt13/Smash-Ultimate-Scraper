@@ -1,4 +1,4 @@
-# SSBU Visual (dcraperjs file)
+# SSBU Visual (scraper.js file)
 
 ## A Super Smash Brothers Frame Data Analysis and Visualization in JavaScript and React.js. Currently under development. 
 
