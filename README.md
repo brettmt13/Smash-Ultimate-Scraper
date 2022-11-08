@@ -16,5 +16,5 @@
 View current issues in issues tab.
 
 Data Analysis and Visualization of Smash Ultimate Character Attributes
-All data credits to Kurogane Hammer https://kuroganehammer.com/Ultimate
+All data credits to SSBU Frame Data https://ultimateframedata.com/
 
