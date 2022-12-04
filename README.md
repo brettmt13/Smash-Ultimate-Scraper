@@ -1,4 +1,4 @@
-# SSBU Visual (scraper.js file)
+# Smash Ultimate Scraper (scraper.js file)
 
 ## A Super Smash Brothers Frame Data Web Scraper in JavaScript.
 ## Automatically generates sets of diferent character statistics per request.
