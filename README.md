@@ -17,21 +17,11 @@ There is a method in each child class (the classes for different stats), which p
 
 ![Get array](getarray.png)
 
+Variable 'result' contains the array of arrays containing the requested character statistics. For example purposes, they are printed in the code above. Here is the output.
 
+![Output](output.png)
 
-
-
-
-##### Goals:
+#### Future ideas:
 - Create a library for backend use for anyone using JavaScript.
-
-#### Upcoming - An interactive web page displaying SSBU frame data using react.js.
-##### Goals:
-- Create interactive comparable character analysis
-- Be able to specify which data to display, compare, and visualize
-
-View current issues in issues tab.
-
-Data Analysis and Visualization of Smash Ultimate Character Attributes
-All data credits to SSBU Frame Data https://ultimateframedata.com/
+- Created a basic React web application, but further develop it for use.
 
