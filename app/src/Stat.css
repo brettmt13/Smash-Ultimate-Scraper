@@ -24,26 +24,25 @@ tr {
     font-family: 'Rubik', sans-serif;
     background-color: rgb(0,19,184);
     color: white;
-    font-size:larger;
 }
 
 .Name-td {
-    width: 190px;
+    width: 80px;
     display: table-cell;
     font-family: 'Rubik', sans-serif;
     background-color: rgb(203,39,39);
     color: white;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 30px;
-    padding-right: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
     font-style: italic;
     font-weight: 600;
-    font-size: 27px;
+    font-size: 15px;
 }
 
 .Stat-td {
-    width: 80px;
+    width: 50px;
     display: table-cell;
     font-family: 'Rubik', sans-serif;
     background-color: rgb(123,17,17);

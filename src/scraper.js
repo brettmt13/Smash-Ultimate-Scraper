@@ -133,31 +133,31 @@ export class AirSpeed extends Scraper {
 }
 
 
-export class RunSpeed extends Scraper {
-    constructor() {
-        super();
-    }
-
-    // returns an array of every character and their air speed value
-    async getArray() {
-        let parsedData = [];
-        this.array = [];
-        const rawData = await this.parseData(this.URL);
-        const $ = cheerio.load(rawData);
-
-        $('#runspeed tbody tr').each(function (i, elm) {
-            parsedData.push($(this).text().trim());
-        });
-
-        for (let i = 0; i < parsedData.length; i++) {
-            let string = parsedData[i];
-            let fighter = this.getFV(string);
-            this.array.push(fighter);
-        }
-
-        return this.array;
-    }
-}
+// export class RunSpeed extends Scraper {
+//     constructor() {
+//         super();
+//     }
+//
+//     // returns an array of every character and their air speed value
+//     async getArray() {
+//         let parsedData = [];
+//         this.array = [];
+//         const rawData = await this.parseData(this.URL);
+//         const $ = cheerio.load(rawData);
+//
+//         $('#runspeed tbody tr').each(function (i, elm) {
+//             parsedData.push($(this).text().trim());
+//         });
+//
+//         for (let i = 0; i < parsedData.length; i++) {
+//             let string = parsedData[i];
+//             let fighter = this.getFV(string);
+//             this.array.push(fighter);
+//         }
+//
+//         return this.array;
+//     }
+// }
 
 
 export class WalkSpeed extends Scraper {
@@ -214,3 +214,11 @@ export class Weight extends Scraper {
         return this.array;
     }
 }
+
+// creates an instance of the Weight class
+const characterWeight = new Weight();
+
+// call getArray() from the weight class
+characterWeight.getArray().then(result => {
+  console.log(result)
+})
