@@ -17,7 +17,7 @@ There is a method in each child class (the classes for different stats), which p
 
 ![Get array](getarray.png)
 
-Variable 'result' contains the array of arrays containing the requested character statistics. For example purposes, they are printed in the code above. Here is the output.
+Variable 'result' contains the array of arrays containing the requested character statistics. For example purposes, they are printed in the code above. Below is a portion of the output.
 
 ![Output](output.png)
 
