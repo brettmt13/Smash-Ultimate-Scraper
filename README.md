@@ -1,10 +1,12 @@
 # SSBU Visual (scraper.js file)
 
-## A Super Smash Brothers Frame Data Analysis and Visualization in JavaScript and React.js. Currently under development. 
+## A Super Smash Brothers Frame Data Web Scraper in JavaScript.
 
-### Features - current and upcoming:
-#### A fully automated web scraper in JavaScript
-- Automatically generates sets of different frame data per request. Documentation in the works.
+
+### Documentation:
+
+#### - Automatically generates sets of different frame data per request.
+
 ##### Goals:
 - Create a library for backend use for anyone using JavaScript.
 
